@@ -13,9 +13,33 @@ import java.util.ArrayList;
  */
 public class Vertice {
     
-    int x;
-    int y;
+    final int x;
+    final int y;
+    final String Nombre;
     ArrayList<Vertice> Vertices = new ArrayList();
+
+    public Vertice(int x, int y, String Nombre) {
+        this.x = x;
+        this.y = y;
+        this.Nombre = Nombre;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public String getNombre() {
+        return Nombre;
+    }
+
+    public ArrayList<Vertice> getVertices() {
+        return Vertices;
+    }
+    
     
     
 }
