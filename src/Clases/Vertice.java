@@ -16,7 +16,8 @@ public class Vertice {
     final int x;
     final int y;
     final String Nombre;
-    ArrayList<Vertice> Vertices = new ArrayList();
+    boolean Estado = false;
+    ArrayList<Arista> Aristas = new ArrayList();
 
     public Vertice(int x, int y, String Nombre) {
         this.x = x;
@@ -36,9 +37,15 @@ public class Vertice {
         return Nombre;
     }
 
-    public ArrayList<Vertice> getVertices() {
-        return Vertices;
+    public ArrayList<Arista> getAristas() {
+        return Aristas;
     }
+
+    public void setAristas(ArrayList<Arista> Aristas) {
+        this.Aristas = Aristas;
+    }
+
+    
     
     
     

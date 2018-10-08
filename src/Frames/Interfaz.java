@@ -5,9 +5,11 @@
  */
 package Frames;
 
+import Clases.Arista;
 import Clases.Vertice;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -27,6 +29,7 @@ import javax.swing.JOptionPane;
 public class Interfaz extends javax.swing.JFrame {
 
     ArrayList<Vertice> vertices = new ArrayList();
+    String Accion = "Nada";
 
     public Interfaz() {
         initComponents();
@@ -42,14 +45,14 @@ public class Interfaz extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel4 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        Mapa = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         VerticeIn = new javax.swing.JComboBox<>();
         VerticeDes = new javax.swing.JComboBox<>();
-        jTextField2 = new javax.swing.JTextField();
+        Distancia = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -62,17 +65,30 @@ public class Interfaz extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        AddDestino = new javax.swing.JButton();
+        Delete = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximizedBounds(new java.awt.Rectangle(1065, 756, 756, 756));
-        setMaximumSize(new java.awt.Dimension(1065, 756));
-        setMinimumSize(new java.awt.Dimension(1085, 806));
-        setPreferredSize(new java.awt.Dimension(1080, 756));
+        setMaximumSize(new java.awt.Dimension(1065, 677));
+        setMinimumSize(new java.awt.Dimension(1065, 677));
+        setPreferredSize(new java.awt.Dimension(1065, 720));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel3MouseClicked(evt);
+            }
+        });
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Mapa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Mapa.jpg"))); // NOI18N
+        Mapa.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jPanel3.add(Mapa, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1070, 480));
 
         jPanel4.setBackground(new java.awt.Color(0, 153, 204));
 
@@ -87,20 +103,9 @@ public class Interfaz extends javax.swing.JFrame {
             .addGap(0, 30, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 550, 1070, -1));
+        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 480, 1070, -1));
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel3MouseClicked(evt);
-            }
-        });
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Mapa.jpg"))); // NOI18N
-        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1070, 550));
-
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1070, 550));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1070, 510));
 
         jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -111,8 +116,8 @@ public class Interfaz extends javax.swing.JFrame {
         jPanel2.add(VerticeIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 190, 30));
 
         VerticeDes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "..." }));
-        jPanel2.add(VerticeDes, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 191, 30));
-        jPanel2.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 40, 180, 30));
+        jPanel2.add(VerticeDes, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, 191, 30));
+        jPanel2.add(Distancia, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, 160, 20));
 
         jButton6.setText("Crear Aristas");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -120,10 +125,10 @@ public class Interfaz extends javax.swing.JFrame {
                 jButton6ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 110, 200, 40));
+        jPanel2.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 40, 200, 30));
 
         jLabel6.setText("Distancia:");
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, 140, 40));
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, 60, 40));
 
         jTabbedPane1.addTab("tab2", jPanel2);
 
@@ -153,27 +158,31 @@ public class Interfaz extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(204, 204, 204));
         jButton1.setText("Agregar");
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 100, 250, 30));
-
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
         jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 50, 180, 30));
 
         jTabbedPane1.addTab("tab1", jPanel1);
 
-        getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 550, 870, 210));
+        getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 480, 870, 280));
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 204)));
         jPanel5.setForeground(new java.awt.Color(0, 153, 204));
 
-        jButton2.setBackground(new java.awt.Color(204, 204, 204));
-        jButton2.setText("Añadir Destino");
+        AddDestino.setBackground(new java.awt.Color(204, 204, 204));
+        AddDestino.setText("Añadir Destino");
+        AddDestino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddDestinoActionPerformed(evt);
+            }
+        });
 
-        jButton3.setBackground(new java.awt.Color(204, 204, 204));
-        jButton3.setText("Eliminar");
+        Delete.setBackground(new java.awt.Color(204, 204, 204));
+        Delete.setText("Eliminar");
+        Delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeleteActionPerformed(evt);
+            }
+        });
 
         jButton4.setBackground(new java.awt.Color(204, 204, 204));
         jButton4.setText("Recorrido DFS");
@@ -188,8 +197,8 @@ public class Interfaz extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AddDestino, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                    .addComponent(Delete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -198,81 +207,104 @@ public class Interfaz extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addComponent(jButton2)
+                .addComponent(AddDestino)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
+                .addComponent(Delete)
                 .addGap(18, 18, 18)
                 .addComponent(jButton4)
                 .addGap(18, 18, 18)
                 .addComponent(jButton5)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 570, 210, 200));
+        getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 500, 210, 200));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
-        String nombre = JOptionPane.showInputDialog(this, "Digite el Nombre del nodo que desea crea.", "Vertice", WIDTH);
-        if (nombre != null) {
-            Graphics g = getGraphics();
-            ImageIcon img = new ImageIcon(new ImageIcon(getClass().getResource("/Imagenes/40028.png")).getImage());
-            System.out.println(evt.getY() + " " + evt.getX());
-            Vertice vertice = new Vertice(evt.getX(), evt.getY(), nombre);
-            vertices.add(vertice);
-            g.drawImage(img.getImage(), evt.getX(), evt.getY(), 55, 55, null);
-            g.setColor(Color.red.darker());
-            g.drawOval(evt.getX(), evt.getY(), 10, 10);
-            g.drawOval(evt.getX() + 40, evt.getY(), 10, 10);
-            g.drawOval(evt.getX(), evt.getY() + 50, 10, 10);
-            g.drawOval(evt.getX() + 40, evt.getY() + 50, 10, 10);
-            g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
-            g.setColor(Color.GRAY.darker().darker());
-            g.drawString(nombre, evt.getX() + 3, evt.getY() + 70);
-            g.dispose();
-            LllenarComboBox(VerticeIn);
-            LllenarComboBox(VerticeDes);
+        if (Accion.equals("Añadir")) {
+
+            String nombre = JOptionPane.showInputDialog(this, "Digite el Nombre del nodo que desea crea.", "Vertice", WIDTH);
+            if (!nombre.equals("") && !nombre.equals(null)) {
+                boolean sw = Superposicion(evt.getX(), evt.getY());
+                if (sw == false) {
+                    Graphics g = getGraphics();
+                    ImageIcon img = new ImageIcon(new ImageIcon(getClass().getResource("/Imagenes/40028.png")).getImage());
+                    System.out.println(evt.getY() + " " + evt.getX());
+                    Vertice vertice = new Vertice(evt.getX(), evt.getY(), nombre);
+                    vertices.add(vertice);
+                    g.drawImage(img.getImage(), evt.getX(), evt.getY(), 55, 55, null);
+                    g.setColor(Color.red.darker());
+                    g.drawOval(evt.getX(), evt.getY(), 10, 10);
+                    g.drawOval(evt.getX() + 40, evt.getY(), 10, 10);
+                    g.drawOval(evt.getX(), evt.getY() + 50, 10, 10);
+                    g.drawOval(evt.getX() + 40, evt.getY() + 50, 10, 10);
+                    g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
+                    g.setColor(Color.GRAY.darker().darker());
+                    g.drawString(nombre, evt.getX() + 3, evt.getY() + 70);
+                    g.dispose();
+                    LllenarComboBox(VerticeIn);
+                    LllenarComboBox(VerticeDes);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "No ha escrito ningun nombre.", "Advertencia", HEIGHT);
+            }
+        } else {
+            if (Accion.equals("Eliminar")) {
+
+            }
         }
+        Accion = "Nada";
+        Mapa.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_jPanel3MouseClicked
-    
-    public void LllenarComboBox(JComboBox c){
+
+    public void LllenarComboBox(JComboBox c) {
         c.removeAllItems();
         c.addItem("...");
         for (Vertice vertice : vertices) {
             c.addItem(vertice.getNombre());
         }
     }
-    
-    public void UnirVertices(String Nombre1, String Nombre2) {
-        Vertice ver = Buscar(Nombre1);
-        Vertice ver2 = Buscar(Nombre2);
 
-        Graphics g = getGraphics();
-        g.setColor(Color.blue.darker());
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setStroke(new BasicStroke(2));
-        g.drawLine(ver2.getX()+28, ver2.getY()+45, ver.getX()+28, ver.getY()+45);
-    }
-
-    public Vertice Buscar(String Nom) {
-        for (Vertice vertice : vertices) {
-            if (Nom.equals(vertice.getNombre())) {
-                return vertice;
-            }
-        }
-        return null;
-    }
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        String Nombre1 = (String) VerticeIn.getSelectedItem();
-        String Nombre2 = (String) VerticeDes.getSelectedItem();
-        UnirVertices(Nombre1, Nombre2);
+        Vertice ver = vertices.get(VerticeIn.getSelectedIndex() - 1);
+        Vertice ver2 = vertices.get(VerticeDes.getSelectedIndex() - 1);
+        Arista arista = new Arista(Integer.parseInt(Distancia.getText()), ver, ver2);
+        Graphics g = getGraphics();
+        g.setColor(Color.yellow.darker());
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(2));
+        g.drawString(Distancia.getText(), (arista.getCentrox()) + 28, arista.getCentroy() + 45);
+        g.setColor(Color.blue.darker());
+        g.drawLine(ver2.getX() + 28, ver2.getY() + 45, ver.getX() + 28, ver.getY() + 45);
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void AddDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddDestinoActionPerformed
+        Accion = "Añadir";
+        Mapa.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+    }//GEN-LAST:event_AddDestinoActionPerformed
+
+    private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
+        Accion = "Eliminar";
+        Mapa.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+    }//GEN-LAST:event_DeleteActionPerformed
+
+    public void dibujarAristas(Arista aris) {
+
+    }
+
+    public boolean Superposicion(int x, int y) {
+        int X = x, Y = y;
+        for (Vertice vertice : vertices) {
+            if (((X >= vertice.getX()) || (X <= (vertice.getX() + 40))) && ((Y >= (vertice.getY()) || (Y <= (vertice.getY() + 50))))) {
+                JOptionPane.showMessageDialog(null, "Ya existe un vertice en esta posicion");
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * @param args the command line arguments
@@ -289,18 +321,19 @@ public class Interfaz extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddDestino;
+    private javax.swing.JButton Delete;
+    private javax.swing.JTextField Distancia;
+    private javax.swing.JLabel Mapa;
     private javax.swing.JComboBox<String> VerticeDes;
     private javax.swing.JComboBox<String> VerticeIn;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -312,6 +345,5 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }
