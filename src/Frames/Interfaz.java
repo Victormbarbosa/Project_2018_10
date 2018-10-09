@@ -468,11 +468,15 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (!VerticeInDFS.getSelectedItem().equals("...")) {
-            ReiniciarEstado();
-            try {
-                DFS(vertices.get(VerticeInDFS.getSelectedIndex() - 1));
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+            if (!vertices.get(VerticeInDFS.getSelectedIndex() - 1).getAristas().isEmpty()) {
+                ReiniciarEstado();
+                try {
+                    DFS(vertices.get(VerticeInDFS.getSelectedIndex() - 1));
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "El Vertice Seleccionado no tiene aristas.", "Advertencia", HEIGHT);
             }
         } else {
             JOptionPane.showMessageDialog(null, "La opcion \"...\" no es un vertice. ", "Advertencia", HEIGHT);
@@ -502,13 +506,17 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void ButtonBFSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBFSActionPerformed
         if (!VerticeInBFS.getSelectedItem().equals("...")) {
-            ReiniciarEstado();
-            try {
-                BFS(vertices.get(VerticeInBFS.getSelectedIndex() - 1));
+            if (!vertices.get(VerticeInBFS.getSelectedIndex() - 1).getAristas().isEmpty()) {
+                ReiniciarEstado();
+                try {
+                    BFS(vertices.get(VerticeInBFS.getSelectedIndex() - 1));
 
-                // TODO add your handling code here:
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                    // TODO add your handling code here:
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "El Vertice Seleccionado no tiene aristas.", "Advertencia", HEIGHT);
             }
         } else {
             JOptionPane.showMessageDialog(null, "La opcion \"...\" no es un vertice. ", "Advertencia", HEIGHT);
