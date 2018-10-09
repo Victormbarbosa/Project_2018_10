@@ -21,7 +21,9 @@ public class Arista {
         this.VerticeIn = VerticeIn;
         this.VerticeFin = VerticeFin;
         VerticeIn.getAristas().add(this);
+        VerticeIn.getVerticesad().add(VerticeFin);
         VerticeFin.getAristas().add(this);
+        VerticeFin.getVerticesad().add(VerticeIn);
         BuscarCentro();
     }
 

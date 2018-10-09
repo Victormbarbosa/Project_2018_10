@@ -18,6 +18,23 @@ public class Vertice {
     final String Nombre;
     boolean Estado = false;
     ArrayList<Arista> Aristas = new ArrayList();
+    ArrayList<Vertice> verticesad = new ArrayList();
+
+    public ArrayList<Vertice> getVerticesad() {
+        return verticesad;
+    }
+
+    public void setVerticesad(ArrayList<Vertice> verticesad) {
+        this.verticesad = verticesad;
+    }
+
+    public boolean isEstado() {
+        return Estado;
+    }
+
+    public void setEstado(boolean Estado) {
+        this.Estado = Estado;
+    }
 
     public Vertice(int x, int y, String Nombre) {
         this.x = x;
@@ -39,6 +56,17 @@ public class Vertice {
 
     public ArrayList<Arista> getAristas() {
         return Aristas;
+    }
+
+    
+    public Arista getArista(Vertice vk) {
+        
+        for (Arista arista : Aristas) {
+            if(arista.getVerticeFin().equals(vk) || arista.getVerticeIn().equals(vk)){
+                return arista;
+            }
+        }
+        return null;
     }
 
     public void setAristas(ArrayList<Arista> Aristas) {
