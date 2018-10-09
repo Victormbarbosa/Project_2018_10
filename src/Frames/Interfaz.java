@@ -350,25 +350,30 @@ public class Interfaz extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void MapaSeleccionableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MapaSeleccionableMouseClicked
         if (Accion.equals("Añadir")) {
             String nombre = JOptionPane.showInputDialog(this, "Digite el Nombre del vertice que desea crea.", "Vertice", WIDTH);
             if (!nombre.equals("") && !nombre.equals(null)) {
-                boolean sw = Colisiones(evt.getX(), evt.getY());
-                if (sw == false) {
+                if (NombreRepetido(nombre) == false) {
+                    boolean sw = Colisiones(evt.getX(), evt.getY());
+                    if (sw == false) {
 
-                    Graphics g = getGraphics();
-                    ImageIcon img = new ImageIcon(new ImageIcon(getClass().getResource("/Imagenes/Apuntador.png")).getImage());
-                    Vertice vertice = new Vertice(evt.getX(), evt.getY(), nombre);
-                    vertices.add(vertice);
-                    g.drawImage(img.getImage(), evt.getX(), evt.getY(), 55, 55, null);
-                    g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
-                    g.setColor(Color.GRAY.darker().darker());
-                    g.drawString(nombre, evt.getX() + 3, evt.getY() + 70);
-                    g.dispose();
-                    LllenarComboBox(VerticeIn);
-                    LllenarComboBox(VerticeDes);
+                        Graphics g = getGraphics();
+                        ImageIcon img = new ImageIcon(new ImageIcon(getClass().getResource("/Imagenes/Apuntador.png")).getImage());
+                        Vertice vertice = new Vertice(evt.getX(), evt.getY(), nombre);
+                        vertices.add(vertice);
+                        g.drawImage(img.getImage(), evt.getX(), evt.getY(), 55, 55, null);
+                        g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
+                        g.setColor(Color.GRAY.darker().darker());
+                        g.drawString(nombre, evt.getX() + 3, evt.getY() + 70);
+                        g.dispose();
+                        LllenarComboBox(VerticeIn);
+                        LllenarComboBox(VerticeDes);
 
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ya existe otro vertice con este nombre.", "Advertencia", HEIGHT);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "No ha escrito ningun nombre.", "Advertencia", HEIGHT);
@@ -390,6 +395,26 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }
 
+    public boolean NombreRepetido(String nombre) {
+        for (Vertice vertice : vertices) {
+            if (vertice.getNombre().equals(nombre)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isNumeric(String cadena) {
+        boolean resultado;
+        try {
+            Integer.parseInt(cadena);
+            resultado = true;
+        } catch (NumberFormatException excepcion) {
+            resultado = false;
+        }
+        return resultado;
+    }
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
 
@@ -398,19 +423,23 @@ public class Interfaz extends javax.swing.JFrame {
             Vertice ver2 = vertices.get(VerticeDes.getSelectedIndex() - 1);
             if (!ver.equals(ver2)) {
                 if (ver.YaExisteAdyacencia(ver2) == false) {
-                    Arista arista = new Arista(Integer.parseInt(Distancia.getText()), ver, ver2);
-                    aristas.add(arista);
-                    Graphics g = getGraphics();
-                    g.setColor(Color.BLUE.brighter().brighter().brighter().brighter());
-                    Graphics2D g2 = (Graphics2D) g;
-                    g2.setStroke(new BasicStroke(2));
-                    g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
-                    g.drawString(Distancia.getText(), (arista.getCentrox()) + 28, arista.getCentroy() + 45);
-                    g.setColor(Color.blue.darker());
-                    g.drawLine(ver2.getX() + 28, ver2.getY() + 45, ver.getX() + 28, ver.getY() + 45);
-                    VerticeIn.setSelectedIndex(0);
-                    VerticeDes.setSelectedIndex(0);
-                    Distancia.setText("");
+                    if (isNumeric(Distancia.getText())) {
+                        Arista arista = new Arista(Integer.parseInt(Distancia.getText()), ver, ver2);
+                        aristas.add(arista);
+                        Graphics g = getGraphics();
+                        Graphics2D g2 = (Graphics2D) g;
+                        g2.setStroke(new BasicStroke(2));
+                        g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
+                        g.setColor(Color.blue.darker());
+                        g.drawLine(ver2.getX() + 28, ver2.getY() + 45, ver.getX() + 28, ver.getY() + 45);
+                        g.setColor(Color.green.darker());
+                        g.drawString(Distancia.getText(), (arista.getCentrox()) + 28, arista.getCentroy() + 45);
+                        VerticeIn.setSelectedIndex(0);
+                        VerticeDes.setSelectedIndex(0);
+                        Distancia.setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El peso de la arista es solamente numerico.", "Advertencia", HEIGHT);
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "No se permite crear mas de una arista hacia el mismo vertice.", "Advertencia", HEIGHT);
                 }
@@ -438,11 +467,15 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_DFSActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ReiniciarEstado();
-        try {
-            DFS(vertices.get(VerticeInDFS.getSelectedIndex() - 1));
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+        if (!VerticeInDFS.getSelectedItem().equals("...")) {
+            ReiniciarEstado();
+            try {
+                DFS(vertices.get(VerticeInDFS.getSelectedIndex() - 1));
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "La opcion \"...\" no es un vertice. ", "Advertencia", HEIGHT);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -468,14 +501,18 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_BFSButtActionPerformed
 
     private void ButtonBFSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBFSActionPerformed
-        ReiniciarEstado();
-        try {
-            BFS(vertices.get(VerticeInBFS.getSelectedIndex() - 1));
+        if (!VerticeInBFS.getSelectedItem().equals("...")) {
+            ReiniciarEstado();
+            try {
+                BFS(vertices.get(VerticeInBFS.getSelectedIndex() - 1));
 
-            // TODO add your handling code here:
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
-        }        // TODO add your handling code here:
+                // TODO add your handling code here:
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "La opcion \"...\" no es un vertice. ", "Advertencia", HEIGHT);
+        }
     }//GEN-LAST:event_ButtonBFSActionPerformed
 
     private void Delete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Delete1ActionPerformed
@@ -543,7 +580,7 @@ public class Interfaz extends javax.swing.JFrame {
                 g.setColor(Color.red);
                 g.drawString(String.valueOf(arista.getPeso()), (arista.getCentrox()) + 28, arista.getCentroy() + 45);
             } else {
-                g.setColor(Color.BLUE.brighter().brighter().brighter().brighter());
+                g.setColor(Color.GREEN.darker());
                 g.drawString(String.valueOf(arista.getPeso()), (arista.getCentrox()) + 28, arista.getCentroy() + 45);
                 g.setColor(Color.blue.darker());
             }
