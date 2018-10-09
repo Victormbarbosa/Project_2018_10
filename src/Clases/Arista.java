@@ -15,7 +15,7 @@ public class Arista {
     int centrox, centroy;
     Vertice VerticeIn;
     Vertice VerticeFin;
-    boolean Estado= false;
+    boolean Estado;
 
     public boolean isEstado() {
         return Estado;
@@ -26,6 +26,7 @@ public class Arista {
     }
 
     public Arista(int Peso, Vertice VerticeIn, Vertice VerticeFin) {
+        Estado = false;
         this.Peso = Peso;
         this.VerticeIn = VerticeIn;
         this.VerticeFin = VerticeFin;
@@ -75,19 +76,22 @@ public class Arista {
     public void setVerticeFin(Vertice VerticeFin) {
         this.VerticeFin = VerticeFin;
     }
+    
+    public void EliminarVertices(){
+            VerticeIn.getAristas().remove(this);
+            VerticeIn.getVerticesad().remove(VerticeFin);
+            VerticeFin.getAristas().remove(this);
+            VerticeFin.getVerticesad().remove(VerticeIn);
+    }
+    
+    public void BuscarCentro() {
+        int ymax, xmax, ymin, xmin;
+        ymax = Math.max(VerticeIn.getY(), VerticeFin.getY());
+        xmax = Math.max(VerticeIn.getX(), VerticeFin.getX());
+        ymin = Math.min(VerticeIn.getY(), VerticeFin.getY());
+        xmin = Math.min(VerticeIn.getX(), VerticeFin.getX());
+        centrox = ((xmax - xmin) / 2) + xmin;
+        centroy = ((ymax - ymin) / 2) + ymin;
+    }
 
-
-public void BuscarCentro(){
-    int ymax, xmax, ymin,xmin;
-    ymax = Math.max(VerticeIn.getY(), VerticeFin.getY());
-    xmax = Math.max(VerticeIn.getX(), VerticeFin.getX());
-    ymin = Math.min(VerticeIn.getY(), VerticeFin.getY());
-    xmin = Math.min(VerticeIn.getX(), VerticeFin.getX());
-    centrox = ((xmax - xmin)/2)+ xmin;
-    centroy = ((ymax - ymin)/2)+ ymin;
-}
-    
-    
-    
-    
 }

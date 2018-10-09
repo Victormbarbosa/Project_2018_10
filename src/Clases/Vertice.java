@@ -73,7 +73,15 @@ public class Vertice {
         this.Aristas = Aristas;
     }
 
+    public boolean YaExisteAdyacencia(Vertice vk){
     
+        for (Vertice vertad : verticesad) {
+            if(vertad.equals(vk)){
+            return true;
+            }
+        }
+        return false;
+    }
     
     
     
