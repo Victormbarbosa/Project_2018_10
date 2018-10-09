@@ -15,6 +15,15 @@ public class Arista {
     int centrox, centroy;
     Vertice VerticeIn;
     Vertice VerticeFin;
+    boolean Estado= false;
+
+    public boolean isEstado() {
+        return Estado;
+    }
+
+    public void setEstado(boolean Estado) {
+        this.Estado = Estado;
+    }
 
     public Arista(int Peso, Vertice VerticeIn, Vertice VerticeFin) {
         this.Peso = Peso;

@@ -320,9 +320,10 @@ public class Interfaz extends javax.swing.JFrame {
         Arista arista = new Arista(Integer.parseInt(Distancia.getText()), ver, ver2);
         aristas.add(arista);
         Graphics g = getGraphics();
-        g.setColor(Color.yellow.darker());
+        g.setColor(Color.red.darker());
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(2));
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
         g.drawString(Distancia.getText(), (arista.getCentrox()) + 28, arista.getCentroy() + 45);
         g.setColor(Color.blue.darker());
         g.drawLine(ver2.getX() + 28, ver2.getY() + 45, ver.getX() + 28, ver.getY() + 45);
@@ -365,7 +366,7 @@ public class Interfaz extends javax.swing.JFrame {
         }
 
         for (Arista arista : aristas) {
-            g.setColor(Color.yellow.darker());
+            g.setColor(Color.red.darker());
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(2));
             g.drawString(String.valueOf(arista.getPeso()), (arista.getCentrox()) + 28, arista.getCentroy() + 45);
@@ -394,33 +395,31 @@ public class Interfaz extends javax.swing.JFrame {
     public void dibujarAristas(Vertice vk, Vertice vi) {
 
         Arista aris = vi.getArista(vk);
+        aris.setEstado(true);
         Graphics g = getGraphics();
         super.paintComponents(g);
         for (Vertice vertice : vertices) {
-
+            if (vertice.isEstado() == true) {
+                g.setColor(Color.red);
+            } else {
+                g.setColor(Color.GRAY.darker().darker());
+            }
             ImageIcon img = new ImageIcon(new ImageIcon(getClass().getResource("/Imagenes/40028.png")).getImage());
             g.drawImage(img.getImage(), vertice.getX(), vertice.getY(), 55, 55, null);
             g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
-            g.setColor(Color.GRAY.darker().darker());
             g.drawString(vertice.getNombre(), vertice.getX() + 3, vertice.getY() + 70);
-
         }
-
         for (Arista arista : aristas) {
-            if (!arista.equals(aris)) {
-                g.setColor(Color.yellow.darker());
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setStroke(new BasicStroke(2));
-                g.drawString(String.valueOf(arista.getPeso()), (arista.getCentrox()) + 28, arista.getCentroy() + 45);
+            Graphics2D g2 = (Graphics2D) g;
+            if (aris.isEstado() == true) {
+                g.setColor(Color.red);
+            } else {
                 g.setColor(Color.blue.darker());
-                g.drawLine(arista.getVerticeFin().getX() + 28, arista.getVerticeFin().getY() + 45, arista.getVerticeIn().getX() + 28, arista.getVerticeIn().getY() + 45);
             }
+            g2.setStroke(new BasicStroke(2));
+            g.drawString(String.valueOf(arista.getPeso()), (arista.getCentrox()) + 28, arista.getCentroy() + 45);
+            g.drawLine(arista.getVerticeFin().getX() + 28, arista.getVerticeFin().getY() + 45, arista.getVerticeIn().getX() + 28, arista.getVerticeIn().getY() + 45);
         }
-        g.setColor(Color.red.darker());
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setStroke(new BasicStroke(2));
-        g.drawString(String.valueOf(aris.getPeso()), (aris.getCentrox()) + 28, aris.getCentroy() + 45);
-        g.drawLine(aris.getVerticeFin().getX() + 28, aris.getVerticeFin().getY() + 45, aris.getVerticeIn().getX() + 28, aris.getVerticeIn().getY() + 45);
         g.dispose();
     }
 
